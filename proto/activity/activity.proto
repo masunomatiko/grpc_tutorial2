@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package activity;
 
-option go_package = "github.com/masunomatiko/grpc_tutorial2/activity";
+option go_package = "github.com/masunomatiko/grpc_tutorial2/proto/activity";
 
 import "task/task.proto";
 import "google/protobuf/timestamp.proto";
@@ -47,4 +47,3 @@ service ActivityService {
     rpc FindActivities (google.protobuf.Empty)
         returns (FindActivitiesResponse);
 }
-

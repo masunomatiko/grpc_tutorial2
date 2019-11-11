@@ -47,4 +47,3 @@ service UserService {
     rpc VerifyUser (VerifyUserRequest)
         returns (VerifyUserResponse);
 }
-

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package task;
 
-option go_package = "github.com/masunomatiko/grpc_tutorial2/task";
+option go_package = "github.com/masunomatiko/grpc_tutorial2/proto/task";
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
@@ -65,4 +65,3 @@ service TaskService {
     rpc UpdateTask (UpdateTaskRequest)
         returns (UpdateTaskResponse);
 }
-
