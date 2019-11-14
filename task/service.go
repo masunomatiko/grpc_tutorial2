@@ -30,7 +30,7 @@ func (s *TaskService) CreateTask(
 		)
 	}
 	resp, err := s.projectClient.FindProject(ctx,
-		&pbProject.FindProjectTasksRequest{
+		&pbProject.FindProjectRequest{
 			ProjectId: req.GetProjectId(),
 		})
 	if err != nil {
