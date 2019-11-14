@@ -58,8 +58,8 @@ func (s *TaskService) CreateTask(
 		)
 	}
 	content := &pbActivity.CreateTaskContent{
-		TaskId:   task.GetTaskId(),
-		TaskName: task.GetTaskName(),
+		TaskId:   task.GetId(),
+		TaskName: task.GetName(),
 	}
 	any, err := ptypes.MarshalAny(content)
 	if err != nil {
@@ -91,12 +91,12 @@ func (s *TaskService) FindTasks(
 			err.Error(),
 		)
 	}
-	return &pbTask.FindProjectTasksResponse{Tasks: tasks}, nil
+	return &pbTask.FindTasksResponse{Tasks: tasks}, nil
 }
 
 func (s *TaskService) FindProjectTasks(
 	ctx context.Context,
-	req *pbProject.FindProjectTasksRequest,
+	req *pbTask.FindProjectTasksRequest,
 ) (*pbTask.FindProjectTasksResponse, error) {
 	userID := md.GetUserIDFromContext(ctx)
 	tasks, err := s.store.FindProjectTasks(req.GetProjectId(), userID)
@@ -124,7 +124,7 @@ func (s *TaskService) UpdateTask(
 	}
 	userID := md.GetUserIDFromContext(ctx)
 	task, err := s.store.FindTask(
-		req.GetTaskId,
+		req.GetTaskId(),
 		userID,
 	)
 	if err != nil {
@@ -151,7 +151,7 @@ func (s *TaskService) UpdateTask(
 		)
 	}
 	if task.GetStatus() == updatedTask.GetStatus() {
-		return &pbTask.UpdatedTaskResponse{Task: updatedTask}, nil
+		return &pbTask.UpdateTaskResponse{Task: updatedTask}, nil
 	}
 	any, err := ptypes.MarshalAny(&pbActivity.UpdateTaskStatusContent{
 		TaskId:     updatedTask.GetId(),
@@ -161,7 +161,7 @@ func (s *TaskService) UpdateTask(
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	if _err := s.activityClient.CreateActivity(
+	if _, err := s.activityClient.CreateActivity(
 		ctx,
 		&pbActivity.CreateActivityRequest{
 			Content: any,
