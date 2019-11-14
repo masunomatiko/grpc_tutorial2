@@ -28,7 +28,7 @@ func XTraceID() grpc.UnaryServerInterceptor {
 
 const loggingFmt = "TraceID:%s\tFullMethod:%s\tElapsedTime:%s\tStatusCode:%s\tError:%s\n"
 
-func Loging() grpc.UnaryServerInterceptor {
+func Logging() grpc.UnaryServerInterceptor {
 	return func(
 		ctx context.Context,
 		req interface{},
